@@ -56,15 +56,17 @@ func main() {
 
 	var data categoryListResponse
 
-	decoder.Decode(&data)
-
-	out, err := json.Marshal(data)
+	err = decoder.Decode(&data)
 
 	if err != nil {
 		fmt.Printf("Something went wrong parsing JSON: %s", err)
 		return
 	}
 
-	fmt.Printf(string(out))
+	for _, categoryGroup := range data.Data.CategoryGroups {
+		for _, category := range categoryGroup.Categories {
+			fmt.Println(category.Name)
+		}
+	}
 
 }
