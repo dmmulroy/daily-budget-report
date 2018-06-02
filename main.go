@@ -1,10 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+	"net/http"
+	"os"
+)
 
 type categoryListResponse struct {
 	Data struct {
-		CategoryGroups []categoryList
+		CategoryGroups []categoryList `json:"category_groups"`
 	}
 }
 
@@ -16,18 +21,50 @@ type categoryList struct {
 }
 
 type category struct {
-	ID               string
-	CategoryStringID string
-	Name             string
-	Hidden           bool
-	Note             string
-	Budgeted         float32
-	Activity         float32
-	Balance          float32
+	ID              string
+	CategoryGroupID string `json:"category_group_id"`
+	Name            string
+	Hidden          bool
+	Note            string
+	Budgeted        float32
+	Activity        float32
+	Balance         float32
 }
 
 func main() {
-	clr := new(categoryListResponse)
+	APIToken := os.Getenv("YNAB_API_KEY")
 
-	fmt.Print(clr)
+	req, err := http.NewRequest("GET", "https://api.youneedabudget.com/v1/budgets/da7e4433-9470-4b70-b9fd-ef10722eedea/categories", nil)
+
+	if err != nil {
+		fmt.Printf("Something went wrong creating the request: %s", err)
+		return
+	}
+
+	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", APIToken))
+
+	res, err := http.DefaultClient.Do(req)
+
+	if err != nil {
+		fmt.Printf("Something went wrong with the request: %s", err)
+		return
+	}
+
+	defer res.Body.Close()
+
+	decoder := json.NewDecoder(res.Body)
+
+	var data categoryListResponse
+
+	decoder.Decode(&data)
+
+	out, err := json.Marshal(data)
+
+	if err != nil {
+		fmt.Printf("Something went wrong parsing JSON: %s", err)
+		return
+	}
+
+	fmt.Printf(string(out))
+
 }
