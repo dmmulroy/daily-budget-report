@@ -64,8 +64,11 @@ func main() {
 	}
 
 	for _, categoryGroup := range data.Data.CategoryGroups {
+		fmt.Printf("---------- %s ----------\n", categoryGroup.Name)
 		for _, category := range categoryGroup.Categories {
-			fmt.Println(category.Name)
+			if !category.Hidden {
+				fmt.Println(category.Name)
+			}
 		}
 	}
 
