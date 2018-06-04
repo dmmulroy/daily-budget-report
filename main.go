@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/smtp"
 	"os"
 )
 
@@ -33,6 +34,7 @@ type category struct {
 
 func main() {
 	APIToken := os.Getenv("YNAB_API_KEY")
+	exlcudedCategoryGroups := map[string]bool{"Income": true, "Internal Master Category": true, "Credit Card Payments": true, "Hidden Categories": true}
 
 	req, err := http.NewRequest("GET", "https://api.youneedabudget.com/v1/budgets/da7e4433-9470-4b70-b9fd-ef10722eedea/categories", nil)
 
@@ -63,13 +65,26 @@ func main() {
 		return
 	}
 
+	hostName := "smtp.gmail.com"
+	auth := smtp.PlainAuth("", "mail.mulroy@gmail.com", os.Getenv("MAIL_PASSWD"), hostName)
+
+	categories := "Category | Balance\n"
+
 	for _, categoryGroup := range data.Data.CategoryGroups {
-		fmt.Printf("---------- %s ----------\n", categoryGroup.Name)
-		for _, category := range categoryGroup.Categories {
-			if !category.Hidden {
-				fmt.Println(category.Name)
+		if !exlcudedCategoryGroups[categoryGroup.Name] {
+			for _, category := range categoryGroup.Categories {
+				categories = categories + fmt.Sprintf("%s: %.2ff\n", category.Name, category.Balance/1000)
 			}
 		}
 	}
 
+	msg := []byte("To: dillon.mulroy@gmail.com, carbechdel@gmail.com\r\n" +
+		"Subject: Daily Budget Report!\r\n" +
+		"\r\n" + categories)
+
+	err = smtp.SendMail(hostName+":587", auth, "mail.mulroy@gmail.com", []string{"dillon.mulroy@gmail.com", "carbechdel@gmail.com"}, msg)
+
+	if err != nil {
+		fmt.Printf("Something went wrong sending mail: %s", err)
+	}
 }
