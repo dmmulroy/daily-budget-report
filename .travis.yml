@@ -1,3 +1,9 @@
 language: go
 go:
   - "1.10"
+deploy:
+  provider: heroku
+  api_key:
+    secure: "YMtaLe+Y67GXfIU8/0xExMvGStTYgl6ws4ncGJDaj4cpb8WXJqoN2UgWmlSKvT7vR81V0ky2rzcAelSc//FT4RUiLM+IGhiOTlo45RRRNOEptYTmmW3gAcE8sH6tjzMEU/W03X/5NWE6htTNU2PVz6F/+nJHiFznQybt+/wT9z85WIf2n8GkldpafTtKG0ZfvdNvw80e5dP7o7kQ7OAejPtca7GuID0H0cvStHIo6HzLfNaMPGBhQbnBHeTsbDZnosm64tDBaNqJnerozPIAVBarGeWlYW1yn+IDj+eqfHw5kM1dScVcHPKRymQ/A19XRNc8vWFTzha5U4sGplg35axkRrTNzoqpa4jYTR9XvXFFy5V3uKqAIE+FPJyR5Rq+Umrd/x7wgd36FsRLZWfI+0YWbjr1Ej2HXfxjW9FUkI/6xpgRtlFCnRHIWGYUTt1QIY1wOa8aFcAfK81++tpaEhugxVCy/AmQG9SrAzy1LVc60kwwc/7zNNCuHKzkfBEWTGCb8t2K1GIe0b6zYnvW/Xr/eEVkpa4KJC2mG/4rlEI1Ojx13sTn4zZS6CH7A8tQKo02XuTsaRYnh+doERjRrMQsnNja4PJ8BwdXLheaszUzyke9qmNh+zKrae8Dre0HQ40W4L+YRDZ/Vxp8nwvijQbXeYfT50kH0IHEvAoMlLs="
+    app: "budget-report
+"
