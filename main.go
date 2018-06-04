@@ -73,7 +73,7 @@ func main() {
 	for _, categoryGroup := range data.Data.CategoryGroups {
 		if !exlcudedCategoryGroups[categoryGroup.Name] {
 			for _, category := range categoryGroup.Categories {
-				categories = categories + fmt.Sprintf("%s: %.2ff\n", category.Name, category.Balance/1000)
+				categories = categories + fmt.Sprintf("%s: $%.2f\n\n", category.Name, category.Balance/1000)
 			}
 		}
 	}
