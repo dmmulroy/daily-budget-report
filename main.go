@@ -68,10 +68,11 @@ func main() {
 	hostName := "smtp.gmail.com"
 	auth := smtp.PlainAuth("", "mail.mulroy@gmail.com", os.Getenv("MAIL_PASSWD"), hostName)
 
-	categories := "Category | Balance\n"
+	var categories string
 
 	for _, categoryGroup := range data.Data.CategoryGroups {
 		if !exlcudedCategoryGroups[categoryGroup.Name] {
+			categories = categories + fmt.Sprintf("---------- %s ----------\n\n", categoryGroup.Name)
 			for _, category := range categoryGroup.Categories {
 				categories = categories + fmt.Sprintf("%s: $%.2f\n\n", category.Name, category.Balance/1000)
 			}
