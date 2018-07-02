@@ -79,11 +79,11 @@ func main() {
 		}
 	}
 
-	msg := []byte("To: dillon.mulroy@gmail.com, carbechdel@gmail.com\r\n" +
+	msg := []byte("To: dillon.mulroy@gmail.com, cbechdel@2u.com\r\n" +
 		"Subject: Daily Budget Report!\r\n" +
 		"\r\n" + categories)
 
-	err = smtp.SendMail(hostName+":587", auth, "mail.mulroy@gmail.com", []string{"dillon.mulroy@gmail.com", "carbechdel@gmail.com"}, msg)
+	err = smtp.SendMail(hostName+":587", auth, "mail.mulroy@gmail.com", []string{"dillon.mulroy@gmail.com", "ccbechdel@2u.com"}, msg)
 
 	if err != nil {
 		fmt.Printf("Something went wrong sending mail: %s", err)
